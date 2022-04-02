@@ -1,0 +1,36 @@
+
+   
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    volumes:
+      - ./infra-data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=book_changelog_user
+      - POSTGRES_PASSWORD=book_changelog_password
+      - POSTGRES_DB=book_changelog_db
+    ports:
+      - 5432:5432
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - postgres
+    command: postgres:5432
+    environment:
+      - TIMEOUT_LENGTH=30
+
+  app:
+    build:
+      context: ./src/back
+      dockerfile: ./Dockerfile
+    image: book-changelog
+    container_name: book-changelog
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+    ports:
+      - 5001:5001

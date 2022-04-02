@@ -1,0 +1,9 @@
+.dockerignore
+.gitignore
+
+**/.idea
+**/.vscode
+
+**/bin/
+**/obj/
+**/logs/
