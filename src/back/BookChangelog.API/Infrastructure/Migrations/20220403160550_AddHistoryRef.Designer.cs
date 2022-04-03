@@ -3,6 +3,7 @@ using System;
 using BookChangelog.API.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookChangelog.API.Infrastructure.Migrations
 {
     [DbContext(typeof(BookChangelogContext))]
-    partial class BookChangelogContextModelSnapshot : ModelSnapshot
+    [Migration("20220403160550_AddHistoryRef")]
+    partial class AddHistoryRef
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,11 +110,9 @@ namespace BookChangelog.API.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("change");
 
-                    b.Property<Instant>("ChangeDateTime")
-                        .ValueGeneratedOnAdd()
+                    b.Property<DateTime>("ChangeDateTime")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("change_date_time")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnName("change_date_time");
 
                     b.HasKey("BookId", "ChangeNumber")
                         .HasName("pk_book_change_history");

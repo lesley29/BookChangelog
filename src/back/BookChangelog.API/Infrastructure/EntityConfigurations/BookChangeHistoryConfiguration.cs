@@ -14,6 +14,7 @@ public class BookChangeHistoryConfiguration : IEntityTypeConfiguration<BookChang
 
         builder.HasKey(bch => new { bch.BookId, bch.ChangeNumber });
         builder.Property(bch => bch.ChangeNumber).ValueGeneratedOnAdd();
+        builder.Property(bch => bch.ChangeDateTime).HasDefaultValueSql("now()");
 
         var serializerOptions = new JsonSerializerOptions
         {

@@ -20,9 +20,10 @@ public class GetBook : ControllerBase
     public async Task<ActionResult<BookDto>> Action(Guid id, CancellationToken cancellationToken)
     {
         var book = await _context.Books
+            .Where(b => b.Id == id)
             .Select(b => new BookDto(b.Id, b.Title, b.Description, b.PublicationDate, 
                 b.BookAuthors.Select(ba => ba.AuthorId).ToList()))
-            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (book is null)
         {

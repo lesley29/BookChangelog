@@ -3,7 +3,6 @@ using BookChangelog.API.Common;
 using BookChangelog.API.Infrastructure;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookChangelog.API.Features.Authors;
 
