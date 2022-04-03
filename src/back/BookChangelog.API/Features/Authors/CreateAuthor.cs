@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BookChangelog.API.Features.Authors;
 
 [ApiController]
-[Route("authors")]
+[Route("api/authors")]
 public class CreateAuthor : ControllerBase
 {
     private readonly BookChangelogContext _context;

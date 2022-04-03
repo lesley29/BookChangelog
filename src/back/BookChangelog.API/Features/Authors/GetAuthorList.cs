@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookChangelog.API.Features.Authors;
 
 [ApiController]
-[Route("authors")]
+[Route("api/authors")]
 public class GetAuthorList : ControllerBase
 {
     private readonly BookChangelogContext _context;

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using BookChangelog.API.Features.Authors;
 using BookChangelog.API.Infrastructure;
 using FluentValidation.AspNetCore;
@@ -14,7 +15,13 @@ builder.Services.AddControllers()
         fv.RegisterValidatorsFromAssemblyContaining<CreateAuthorRequest.Validator>();
         fv.DisableDataAnnotationsValidation = true;
     })
-    .AddJsonOptions(opts => opts.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
+    .AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        opts.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 

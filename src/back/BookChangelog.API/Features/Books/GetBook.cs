@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BookChangelog.API.Features.Books;
 
 [ApiController]
-[Route("books")]
+[Route("api/books")]
 public class GetBook : ControllerBase
 {
     private readonly BookChangelogContext _context;
@@ -23,7 +23,7 @@ public class GetBook : ControllerBase
         var book = await _context.Books
             .Include(b => b.Authors)
             .Where(b => b.Id == id)
-            .Select(b => new BookDto(b.Id, b.Title, b.Description, b.PublicationDate, 
+            .Select(b => new BookDto(b.Id, b.Title, b.Description, b.PublicationDate,
                 b.Authors.Select(a => new AuthorDto(a.Id, a.Name)).ToList()))
             .FirstOrDefaultAsync(cancellationToken);
 

@@ -10,7 +10,7 @@ using NodaTime;
 namespace BookChangelog.API.Features.Books;
 
 [ApiController]
-[Route("books")]
+[Route("api/books")]
 public class CreateBookController : ControllerBase
 {
     private readonly BookChangelogContext _context;
