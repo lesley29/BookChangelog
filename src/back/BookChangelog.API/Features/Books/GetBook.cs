@@ -20,6 +20,7 @@ public class GetBook : ControllerBase
     public async Task<ActionResult<BookDto>> Action(Guid id, CancellationToken cancellationToken)
     {
         var book = await _context.Books
+            .Include(b => b.BookAuthors)
             .Where(b => b.Id == id)
             .Select(b => new BookDto(b.Id, b.Title, b.Description, b.PublicationDate, 
                 b.BookAuthors.Select(ba => ba.AuthorId).ToList()))
