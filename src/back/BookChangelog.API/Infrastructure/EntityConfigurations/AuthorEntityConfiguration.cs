@@ -9,5 +9,6 @@ public class AuthorEntityConfiguration : IEntityTypeConfiguration<Author>
     public void Configure(EntityTypeBuilder<Author> builder)
     {
         builder.ToTable("author");
+        builder.HasIndex(a => a.Name).IsUnique();
     }
 }
