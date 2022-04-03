@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using BookChangelog.API.Common;
 using BookChangelog.API.Infrastructure;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +13,7 @@ public class GetAuthorList : ControllerBase
 {
     private readonly BookChangelogContext _context;
 
-    public GetAuthorList(BookChangelogContext context)
-    {
-        _context = context;
-    }
+    public GetAuthorList(BookChangelogContext context) => _context = context;
 
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
@@ -25,18 +22,20 @@ public class GetAuthorList : ControllerBase
     public Task<PagedResponse<AuthorDto>> Action([FromQuery]GetAuthorListRequest request, CancellationToken cancellationToken)
     {
         var query = _context.Authors
-            .AsNoTracking()
             .Select(a => new AuthorDto(a.Id, a.Name));
         
         return PagedResponse<AuthorDto>.Create(query, request.PageNumber, request.PageSize, cancellationToken);
     }
 
-    public record GetAuthorListRequest
+    public record GetAuthorListRequest(int PageSize = 10, int PageNumber = 0)
     {
-        [Range(1, 50)]
-        public int PageSize { get; init; } = 10;
-
-        [Range(0, int.MaxValue)]
-        public int PageNumber { get; init; } = 0;
+        public class Validator : AbstractValidator<GetAuthorListRequest>
+        {
+            public Validator()
+            {
+                RuleFor(r => r.PageSize).InclusiveBetween(1, 50);
+                RuleFor(r => r.PageNumber).GreaterThanOrEqualTo(0);
+            }
+        }
     }
 }

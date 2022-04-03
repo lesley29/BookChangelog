@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NodaTime;
 
 namespace BookChangelog.API.Features.Books;
 
@@ -12,10 +13,10 @@ public class UpdateBook : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<BookDto> Action(UpdateBookRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<BookDto>> Action(UpdateBookRequest request, CancellationToken cancellationToken)
     {
-        return new BookDto();
+        return new BookDto(Guid.NewGuid(), "title", "description", LocalDate.MinIsoValue, new[] { Guid.NewGuid() });
     }
 
-    public record UpdateBookRequest();
+    public record UpdateBookRequest;
 }

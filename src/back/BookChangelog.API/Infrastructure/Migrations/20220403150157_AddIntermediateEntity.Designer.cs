@@ -3,8 +3,8 @@ using System;
 using BookChangelog.API.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -12,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookChangelog.API.Infrastructure.Migrations
 {
     [DbContext(typeof(BookChangelogContext))]
-    partial class BookChangelogContextModelSnapshot : ModelSnapshot
+    [Migration("20220403150157_AddIntermediateEntity")]
+    partial class AddIntermediateEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +76,7 @@ namespace BookChangelog.API.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<LocalDate>("PublicationDate")
+                    b.Property<DateOnly>("PublicationDate")
                         .HasColumnType("date")
                         .HasColumnName("publication_date");
 
