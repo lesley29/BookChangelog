@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using BookChangelog.API.Common;
+using BookChangelog.API.Features.Authors;
 using BookChangelog.API.Infrastructure;
 using BookChangelog.API.Models;
 using FluentValidation;
@@ -25,7 +26,7 @@ public class GetBookList : ControllerBase
         CancellationToken cancellationToken)
     {
         var query = _context.Books
-            .Include(b => b.BookAuthors)
+            .Include(b => b.Authors)
             .AsQueryable();
 
         query = ApplyPublicationDateFilter(query, request.PublishedFrom, request.PublishedTo);
@@ -33,7 +34,7 @@ public class GetBookList : ControllerBase
 
         var projectedQuery = query
             .Select(b => new BookDto(b.Id, b.Title, b.Description, b.PublicationDate, 
-                b.BookAuthors.Select(ba => ba.AuthorId).ToList()));
+                b.Authors.Select(a => new AuthorDto(a.Id, a.Name)).ToList()));
         
         return await PagedResponse<BookDto>.Create(projectedQuery, request.PageNumber, request.PageSize, cancellationToken);
     }

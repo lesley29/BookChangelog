@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using BookChangelog.API.Features.Authors;
 using BookChangelog.API.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,10 @@ public class GetBook : ControllerBase
     public async Task<ActionResult<BookDto>> Action(Guid id, CancellationToken cancellationToken)
     {
         var book = await _context.Books
-            .Include(b => b.BookAuthors)
+            .Include(b => b.Authors)
             .Where(b => b.Id == id)
             .Select(b => new BookDto(b.Id, b.Title, b.Description, b.PublicationDate, 
-                b.BookAuthors.Select(ba => ba.AuthorId).ToList()))
+                b.Authors.Select(a => new AuthorDto(a.Id, a.Name)).ToList()))
             .FirstOrDefaultAsync(cancellationToken);
 
         if (book is null)

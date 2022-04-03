@@ -21,11 +21,10 @@ public class UpdateBook : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-    public async Task<ActionResult<BookDto>> Action(Guid id, UpdateBookRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult> Action(Guid id, UpdateBookRequest request, CancellationToken cancellationToken)
     {
         var book = await _context.Books
             .Include(b => b.BookAuthors)
-            // .Include(b => b.ChangeHistory)
             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
         if (book is null)
@@ -33,11 +32,12 @@ public class UpdateBook : ControllerBase
             return NotFound();
         }
         
-        var authorCount = await _context.Authors
+        var authors = await _context.Authors
             .Where(a => request.Authors.Contains(a.Id))
-            .CountAsync(cancellationToken);
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
 
-        if (authorCount != request.Authors.Count)
+        if (authors.Count != request.Authors.Count)
         {
             return Problem(
                 detail: "Some of the authors don't exist",

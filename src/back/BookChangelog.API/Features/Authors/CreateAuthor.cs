@@ -38,7 +38,7 @@ public class CreateAuthor : ControllerBase
             actionName: nameof(GetAuthor.Action),
             controllerName: nameof(GetAuthor),
             routeValues: new { id = author.Id },
-            new AuthorDto(author.Id, author.Name));
+            AuthorDto.FromDbModel(author));
     }
 }
 

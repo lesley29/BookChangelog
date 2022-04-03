@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using BookChangelog.API.Features.Authors;
 using BookChangelog.API.Infrastructure;
 using BookChangelog.API.Models;
 using FluentValidation;
@@ -23,11 +24,12 @@ public class CreateBookController : ControllerBase
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<BookDto>> Action(CreateBookRequest request, CancellationToken cancellationToken)
     {
-        var authorCount = await _context.Authors
+        var authors = await _context.Authors
             .Where(a => request.Authors.Contains(a.Id))
-            .CountAsync(cancellationToken);
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
 
-        if (authorCount != request.Authors.Count)
+        if (authors.Count != request.Authors.Count)
         {
             return Problem(
                 detail: "Some of the authors don't exist",
@@ -43,7 +45,8 @@ public class CreateBookController : ControllerBase
             actionName: nameof(GetBook.Action),
             controllerName: nameof(GetBook),
             routeValues: new { id = book.Id },
-            new BookDto(book.Id, book.Title, book.Description, request.PublicationDate, request.Authors));
+            new BookDto(book.Id, book.Title, book.Description, request.PublicationDate,
+                authors.Select(AuthorDto.FromDbModel).ToList()));
     }
 
     public record CreateBookRequest(string Title, string? Description, LocalDate PublicationDate,

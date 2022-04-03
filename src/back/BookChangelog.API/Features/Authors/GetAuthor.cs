@@ -21,7 +21,7 @@ public class GetAuthor : ControllerBase
     {
         var author = await _context.Authors
             .Where(a => a.Id == id)
-            .Select(a => new AuthorDto(a.Id, a.Name))
+            .Select(a => AuthorDto.FromDbModel(a))
             .FirstOrDefaultAsync(cancellationToken);
 
         if (author is null)

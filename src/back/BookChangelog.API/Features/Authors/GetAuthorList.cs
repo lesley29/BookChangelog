@@ -21,7 +21,7 @@ public class GetAuthorList : ControllerBase
     public Task<PagedResponse<AuthorDto>> Action([FromQuery]GetAuthorListRequest request, CancellationToken cancellationToken)
     {
         var query = _context.Authors
-            .Select(a => new AuthorDto(a.Id, a.Name));
+            .Select(a => AuthorDto.FromDbModel(a));
         
         return PagedResponse<AuthorDto>.Create(query, request.PageNumber, request.PageSize, cancellationToken);
     }

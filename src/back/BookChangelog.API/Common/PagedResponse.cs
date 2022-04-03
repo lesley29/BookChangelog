@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookChangelog.API.Common;
 
-public record PagedResponse<T>(IReadOnlyCollection<T> Items, int PageSize, int CurrentPage, int TotalCount)
+public record PagedResponse<T>(int PageSize, int CurrentPage, int TotalCount, IReadOnlyCollection<T> Items)
 {
     public static async Task<PagedResponse<T>> Create(IQueryable<T> source, int pageNumber, int pageSize,
         CancellationToken cancellationToken = default)
@@ -13,6 +13,6 @@ public record PagedResponse<T>(IReadOnlyCollection<T> Items, int PageSize, int C
             .Take(pageSize)
             .ToListAsync(cancellationToken);
 
-        return new PagedResponse<T>(items, pageSize, pageNumber, totalCount);
+        return new PagedResponse<T>(pageSize, pageNumber, totalCount, items);
     }
 }
