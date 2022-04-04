@@ -15,7 +15,6 @@ public class GetBookChangeHistory : ControllerBase
 
     public GetBookChangeHistory(BookChangelogContext context) => _context = context;
 
-
     [HttpGet("{id}/change-history")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,11 +23,11 @@ public class GetBookChangeHistory : ControllerBase
     {
         var book = await _context.Books
             .Include(b => b.ChangeHistory)
+            .AsNoTracking()
             .Select(b => new
             {
-                b.Id,
-                ChangeHistory = b.ChangeHistory.Select(ch
-                    => new BookChangeHistoryDto(ch.ChangeNumber, ch.ChangeDateTime, BookChangeDto.FromDbModel(ch.Change)))
+                b.Id, 
+                b.ChangeHistory
             })
             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
@@ -37,18 +36,60 @@ public class GetBookChangeHistory : ControllerBase
             return NotFound();
         }
 
-        return Ok(book.ChangeHistory);
+        var changeHistory = new List<BookChangeHistoryDto>(book.ChangeHistory
+            .Where(ch => ch.Change.AuthorsChanges == null)
+            .Select(ch =>
+                new BookChangeHistoryDto(ch.ChangeNumber, ch.ChangeDateTime, 
+                    new BookChangeDto
+                    {
+                        Title = ch.Change.Title,
+                        Description = ch.Change.Description, 
+                        PublicationDate = ch.Change.PublicationDate
+                    })));
+
+        var authorsChanges = book.ChangeHistory
+            .Where(ch => ch.Change.AuthorsChanges != null)
+            .ToList(); 
+        
+        var authorsToEnrichWith = authorsChanges
+            .SelectMany(ch => ch.Change.AuthorsChanges!.Select(ac => ac.Id))
+            .Distinct()
+            .ToList();
+
+        if (authorsToEnrichWith.Any())
+        {
+            var authors = await _context.Authors
+                .AsNoTracking()
+                .Where(a => authorsToEnrichWith.Contains(a.Id))
+                .ToDictionaryAsync(a => a.Id, cancellationToken);
+            
+            changeHistory.AddRange(authorsChanges.Select(ac => 
+                new BookChangeHistoryDto(ac.ChangeNumber, ac.ChangeDateTime,
+                    new BookChangeDto
+                    {
+                        Title = ac.Change.Title, 
+                        Description = ac.Change.Description,
+                        PublicationDate = ac.Change.PublicationDate, 
+                        AuthorsChanges = ac.Change.AuthorsChanges!.Select(ch => 
+                            new BookAuthorChangeDto(ch.Id, authors[ch.Id].Name, ch.ChangeType)).ToList()
+                    })));
+        }
+
+        return Ok(changeHistory.OrderByDescending(ch => ch.ChangeNumber));
     }
 
     public record BookAuthorChangeDto(Guid Id, string Name, BookAuthorChangeType ChangeType);
 
-    public record BookChangeDto(string? Title, string? Description,
-        LocalDate? PublicationDate, IReadOnlyCollection<BookAuthorChangeDto>? AuthorsChanges)
+    public record BookChangeDto
     {
-        public static BookChangeDto FromDbModel(BookChange change)
-            => new(change.Title, change.Description, change.PublicationDate,
-                change.AuthorsChanges?.Select(ac => new BookAuthorChangeDto(ac.Id, "TODO", ac.ChangeType)).ToList());
-    };
+        public string? Title { get; init; }
+        
+        public string? Description { get; init; }
+        
+        public LocalDate? PublicationDate { get; init; }
+        
+        public IReadOnlyCollection<BookAuthorChangeDto>? AuthorsChanges { get; init; }
+    }
 
     public record BookChangeHistoryDto(int ChangeNumber, Instant ChangeDateTime, BookChangeDto Change);
 }

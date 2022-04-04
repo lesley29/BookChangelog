@@ -1,5 +1,3 @@
-using BookChangelog.API.Features.Authors;
-
 namespace BookChangelog.API.Models;
 
 public class Author
