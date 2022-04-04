@@ -1,0 +1,13 @@
+.author-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-card {
+    margin: 3px 0 3px 0;
+}
+
+.author-card__id {
+    color: rgba(0, 0, 0, 0.5);
+    float: right;
+}

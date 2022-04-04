@@ -24,6 +24,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
+builder.Services.AddSpaStaticFiles(config => config.RootPath = "./wwwroot");
 
 builder.Services.AddDbContext<BookChangelogContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("Default"), npgsqlOpts => npgsqlOpts.UseNodaTime()));
@@ -36,8 +37,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSpaStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseSpa(config => config.Options.SourcePath = "./wwwroot");
 
 app.Run();

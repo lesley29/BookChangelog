@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
+  selector: 'bc-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'front';
+  public showSpinner$: Observable<boolean> | undefined;
 }

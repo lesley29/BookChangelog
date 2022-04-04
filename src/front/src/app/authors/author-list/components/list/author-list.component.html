@@ -1,0 +1,7 @@
+<ng-container *ngIf="authors$ | async as authors">
+    <article class="container author-list">
+        <mat-card class="author-card" *ngFor="let author of authors">
+            {{ author.name }} <span class="author-card__id"> {{ author.id }} </span>
+        </mat-card>
+    </article>
+</ng-container>
