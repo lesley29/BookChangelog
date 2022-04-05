@@ -1,0 +1,9 @@
+
+.book-info-item__title {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.mat-list .mat-list-item {
+    height: 40px;
+}

@@ -1,0 +1,36 @@
+<ng-container *ngIf="books$ | async as books">
+  <article class="container">
+    
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let book of books" hideToggle>
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ book.title }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-list>
+          <mat-list-item>
+            <span class="book-info-item__title">Description: </span>
+            <span>{{ book.description }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="book-info-item__title">Publication date: </span>
+            <span>{{ book.publicationDate }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="book-info-item__title">Authors: </span>
+            <span>
+              <ng-container *ngFor="let author of book.authors; last as isLast">
+                {{ author.name }}<span *ngIf="!isLast">, </span>
+              </ng-container>
+            </span>
+          </mat-list-item>
+        </mat-list>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  
+  </article>
+</ng-container>
