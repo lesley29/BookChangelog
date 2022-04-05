@@ -1,6 +1,9 @@
 <ng-container *ngIf="books$ | async as books">
   <article class="container">
-    
+    <bc-book-list-filter 
+      [filter]="filter"
+      (filterChange)="onFilterChange($event)"
+    ></bc-book-list-filter>
     <mat-accordion>
       <mat-expansion-panel *ngFor="let book of books" hideToggle>
 

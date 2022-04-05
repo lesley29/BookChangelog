@@ -9,18 +9,34 @@ import { BookListState } from './book-list/state/book-list.state';
 import { BookListFacade } from './book-list/book-list.facade';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BookListFilterComponent } from './book-list/components/filter/book-list-filter.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
     BookListComponent,
     BookEditComponent,
-    BookAddComponent
+    BookAddComponent,
+    BookListFilterComponent
   ],
   imports: [
     CommonModule,
     BooksRoutingModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatButtonModule,
+    MatButtonToggleModule
   ],
   providers: [
     BookListApi,

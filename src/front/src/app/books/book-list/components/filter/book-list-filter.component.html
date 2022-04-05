@@ -1,0 +1,43 @@
+<form [formGroup]="filterForm" class="form">
+    <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Published from</mat-label>
+        <input matInput [matDatepicker]="pickerFrom" formControlName="publishedFrom">
+        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Published to</mat-label>
+        <input matInput [matDatepicker]="pickerTo" formControlName="publishedTo">
+        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo></mat-datepicker>
+    </mat-form-field>
+
+    <!-- TODO: author (?) -->
+    <!-- <mat-form-field class="form__field">
+        <mat-label>Author to filter by</mat-label>
+        <mat-select formControlName="author">
+            <mat-option *ngFor="let author of authorList" [value]="author">
+                {{ author }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+
+    <mat-button-toggle-group
+        class="form__field"
+        formControlName="sortBy"
+    >
+        <mat-button-toggle *ngFor="let sortableField of sortableFieldList" [value]="sortableField">
+            {{ sortableField }}
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group
+        class="form__field"
+        formControlName="sortDirection"
+    >
+        <mat-button-toggle *ngFor="let sortDirection of sortDirectionList" [value]="sortDirection">
+            {{ sortDirection }}
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+</form>

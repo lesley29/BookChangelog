@@ -134,7 +134,7 @@ public class GetBookList : ControllerBase
                                  string.Join(',', ValidSortByValues));
 
                 RuleFor(r => r.SortDirection)
-                    .Must(v => ValidSortByValues.Contains(v))
+                    .Must(v => ValidSortDirections.Contains(v))
                     .When(r => r.SortDirection is not null)
                     .WithMessage($"{nameof(SortDirection)} should have one of the following values: " + 
                                  string.Join(',', ValidSortDirections));

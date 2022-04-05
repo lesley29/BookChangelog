@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:back": "ng build --output-path ../back/BookChangelog.API/wwwroot --watch"
+    "build:back": "ng build --output-path ../back/BookChangelog.API/wwwroot --watch --configuration development"
   },
   "private": true,
   "dependencies": {
