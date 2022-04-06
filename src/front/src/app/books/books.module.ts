@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookEditComponent } from './book-edit/book-edit.component';
-import { BookAddComponent } from './book-add/book-add.component';
 import { BooksRoutingModule } from './books-routing.module';
 import { BookListComponent } from './book-list/components/list/book-list.component';
 import { BookListApi } from './book-list/api/book-list.api';
@@ -20,6 +19,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ChangeHistoryComponent } from './book-list/components/change-history/change-history.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
+import { BookAddComponent } from './book-add/components/add/book-add.component';
+import { BookAddApi } from './book-add/api/book-add.api';
+import { BookAddFacade } from './book-add/book-add.facade';
 
 @NgModule({
   declarations: [
@@ -42,12 +45,15 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatButtonToggleModule,
     MatPaginatorModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSelectModule
   ],
   providers: [
     BookListApi,
     BookListState,
-    BookListFacade
+    BookListFacade,
+    BookAddApi,
+    BookAddFacade
   ]
 })
 export class BooksModule { }
