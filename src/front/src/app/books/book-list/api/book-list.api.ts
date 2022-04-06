@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Book } from 'src/app/core/models/book.model';
+import { Book, BookChangeHistory } from 'src/app/core/models/book.model';
 import { PagedResponse } from 'src/app/core/models/pagination.model';
 import { ApiService } from 'src/app/core/services/api.service';
 import { BookFilter, SortDirection } from '../models/book-list.model';
@@ -29,6 +29,10 @@ export class BookListApi {
         }
         
         return this.api.get<PagedResponse<Book>>("books", params);
+    }
+
+    public getBookChangeHistory(bookId: string): Observable<BookChangeHistory[]>{
+        return this.api.get<BookChangeHistory[]>(`books/${bookId}/change-history`);
     }
 
     private getDatePartAsString(dateString: string): string {

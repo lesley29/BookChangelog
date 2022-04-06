@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Book } from 'src/app/core/models/book.model';
+import { Book, BookChangeHistory } from 'src/app/core/models/book.model';
 import { BookListApi } from './api/book-list.api';
 import { BookFilter } from './models/book-list.model';
 import { BookListState } from './state/book-list.state';
@@ -20,6 +20,21 @@ public getBooks(): Observable<Book[]> {
 
 public getTotalBookCount(): Observable<number> {
   return this.state.getTotalBookCount();
+}
+
+public getBookChangeHistory(): Observable<BookChangeHistory[]> {
+  return this.state.getBookChangeHistory();
+}
+
+public loadBookChangeHistory(bookId: string) {
+  if (this.state.hasChangeHistory(bookId)) {
+    this.state.reloadChangeHistory(bookId);
+  } else {
+    this.api.getBookChangeHistory(bookId)
+      .subscribe(changeHistory => {
+        this.state.addChangeHistory(bookId, changeHistory);
+      });
+  }
 }
 
 public loadBooks(pageIndex: number, pageSize: number, filter: BookFilter) {

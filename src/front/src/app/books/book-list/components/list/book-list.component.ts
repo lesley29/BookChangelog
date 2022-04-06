@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
-import { Book } from 'src/app/core/models/book.model';
+import { Book, BookChangeHistory } from 'src/app/core/models/book.model';
 import { BookListFacade } from '../../book-list.facade';
 import { BookFilter, SortableField, SortDirection } from '../../models/book-list.model';
 
@@ -15,6 +15,7 @@ export class BookListComponent implements OnInit {
 
     public books$: Observable<Book[]>;
     public totalBookCount$: Observable<number>;
+    public changeHistory$: Observable<BookChangeHistory[]>;
 
     public pageSizes = [this.defaultPageSize, 20];
 
@@ -32,6 +33,7 @@ export class BookListComponent implements OnInit {
     ) { 
         this.books$ = this.bookListFacade.getBooks();
         this.totalBookCount$ = this.bookListFacade.getTotalBookCount();
+        this.changeHistory$ = this.bookListFacade.getBookChangeHistory();
     }
         
     ngOnInit(): void {
@@ -48,5 +50,8 @@ export class BookListComponent implements OnInit {
         this.bookListFacade.loadBooks(event.pageIndex, event.pageSize, this.filter);
     }
 
+    public onPanelOpened(bookId: string) {
+        this.bookListFacade.loadBookChangeHistory(bookId);
+    }
 }
     
