@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookEditComponent } from './book-edit/book-edit.component';
 import { BooksRoutingModule } from './books-routing.module';
 import { BookListComponent } from './book-list/components/list/book-list.component';
 import { BookListApi } from './book-list/api/book-list.api';
@@ -23,6 +22,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { BookAddComponent } from './book-add/components/add/book-add.component';
 import { BookAddApi } from './book-add/api/book-add.api';
 import { BookAddFacade } from './book-add/book-add.facade';
+import { MatIconModule } from '@angular/material/icon';
+import { BookEditComponent } from './book-edit/components/edit/book-edit.component';
+import { BookService } from './services/book.service';
+import { BookResolver } from './services/book.resolver';
+import { BookEditApi } from './book-edit/api/book-edit.api';
+import { BookEditFacade } from './book-edit/book-edit.facade';
 
 @NgModule({
   declarations: [
@@ -46,14 +51,19 @@ import { BookAddFacade } from './book-add/book-add.facade';
     MatButtonToggleModule,
     MatPaginatorModule,
     MatDividerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [
     BookListApi,
     BookListState,
     BookListFacade,
     BookAddApi,
-    BookAddFacade
+    BookAddFacade,
+    BookService,
+    BookResolver,
+    BookEditApi,
+    BookEditFacade
   ]
 })
 export class BooksModule { }

@@ -1,0 +1,12 @@
+.book-info {
+    display: flex;
+    justify-content: center;
+    margin: 0 1%;
+}
+
+.book-info__form {
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    width: 40%;
+}
