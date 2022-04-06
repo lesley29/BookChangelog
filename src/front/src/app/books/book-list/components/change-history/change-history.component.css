@@ -7,3 +7,9 @@
     margin-right: 10px;
     align-self: center;
 }
+
+.history-item__changes {
+    margin-right: 10px;
+    align-self: center;
+    max-width: 50%;
+}

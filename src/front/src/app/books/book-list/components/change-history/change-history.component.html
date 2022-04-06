@@ -6,7 +6,7 @@
     {{ changeHistoryItem.changeDateTime | date:'medium' }} 
 </span>
 <mat-divider [vertical]="true"></mat-divider>
-<ul>
+<ul class="history-item__changes">
     <li *ngIf="changeHistoryItem.change.title">
         Title was changed to "{{ changeHistoryItem.change.title }}"
     </li>
