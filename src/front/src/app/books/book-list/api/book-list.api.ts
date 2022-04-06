@@ -11,8 +11,12 @@ export class BookListApi {
     
     constructor(private readonly api: ApiService) { }
     
-    public getBooks(filter: BookFilter): Observable<PagedResponse<Book>> {
+    public getBooks(pageNumber: number, pageSize: number, filter: BookFilter)
+        : Observable<PagedResponse<Book>> 
+    {
         let params = new HttpParams()
+            .set('pageSize', pageSize.toString())
+            .set('pageNumber', pageNumber.toString())
             .set('sortBy', filter.sortBy)
             .set('sortDirection', filter.sortDirection == SortDirection.Ascending ? 'asc' : 'desc');
         

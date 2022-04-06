@@ -1,11 +1,17 @@
-<ng-container *ngIf="books$ | async as books">
+<ng-container *ngIf="
+    {
+        totalBookCount: totalBookCount$ | async,
+        books: books$ | async
+    } as result"
+>
   <article class="container">
     <bc-book-list-filter 
       [filter]="filter"
       (filterChange)="onFilterChange($event)"
     ></bc-book-list-filter>
+
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let book of books" hideToggle>
+      <mat-expansion-panel *ngFor="let book of result.books" hideToggle>
 
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -34,6 +40,14 @@
 
       </mat-expansion-panel>
     </mat-accordion>
-  
+
+    <mat-paginator
+      class="paginator"
+      [length]="result.totalBookCount"
+      [pageSize]="defaultPageSize"
+      [pageSizeOptions]="pageSizes"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
   </article>
 </ng-container>

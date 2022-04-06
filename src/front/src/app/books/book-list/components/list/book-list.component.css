@@ -7,3 +7,8 @@
 .mat-list .mat-list-item {
     height: 40px;
 }
+
+.paginator {
+    display: flex;
+    justify-content: center;
+}

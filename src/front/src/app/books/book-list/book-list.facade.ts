@@ -18,8 +18,12 @@ public getBooks(): Observable<Book[]> {
   return this.state.getBooks();
 }
 
-public loadBooks(filter: BookFilter) {
-  this.api.getBooks(filter)
+public getTotalBookCount(): Observable<number> {
+  return this.state.getTotalBookCount();
+}
+
+public loadBooks(pageIndex: number, pageSize: number, filter: BookFilter) {
+  this.api.getBooks(pageIndex, pageSize, filter)
     .subscribe(books => {
         this.state.setBooks(books);
     });
