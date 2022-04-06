@@ -1,4 +1,16 @@
 
+.book {
+    display: flex;   
+}
+
+.book__info {
+    flex-grow: 1;
+}
+
+.book__change-history {
+    flex-grow: 3;
+}
+
 .book-info-item__title {
     font-weight: bold;
     margin-right: 5px;

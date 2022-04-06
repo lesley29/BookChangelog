@@ -18,13 +18,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ChangeHistoryComponent } from './book-list/components/change-history/change-history.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
     BookListComponent,
     BookEditComponent,
     BookAddComponent,
-    BookListFilterComponent
+    BookListFilterComponent,
+    ChangeHistoryComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatInputModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDividerModule
   ],
   providers: [
     BookListApi,

@@ -1,0 +1,25 @@
+<article
+    *ngFor="let changeHistoryItem of changeHistory"
+    class="history-item"
+>
+<span class="history-item__date"> 
+    {{ changeHistoryItem.changeDateTime | date:'medium' }} 
+</span>
+<mat-divider [vertical]="true"></mat-divider>
+<ul>
+    <li *ngIf="changeHistoryItem.change.title">
+        Title was changed to "{{ changeHistoryItem.change.title }}"
+    </li>
+    <li *ngIf="changeHistoryItem.change.description">
+        Description was changed to "{{ changeHistoryItem.change.description }}"
+    </li>
+    <li *ngIf="changeHistoryItem.change.publicationDate">
+        Publication date was changed to "{{ changeHistoryItem.change.publicationDate }}"
+    </li>
+    <ng-container *ngIf="changeHistoryItem.change.authorsChanges">
+        <li *ngFor="let authorChange of changeHistoryItem.change.authorsChanges">
+            {{ authorChangeToString(authorChange) }}
+        </li>
+    </ng-container>
+</ul>
+</article>

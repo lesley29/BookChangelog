@@ -1,0 +1,9 @@
+.history-item {
+    display: flex;
+    margin: 5px 0 5px 0;
+}
+
+.history-item__date {
+    margin-right: 10px;
+    align-self: center;
+}

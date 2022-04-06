@@ -23,7 +23,7 @@ export interface BookChange {
     title?: string,
     description?: string,
     publicationDate?: string,
-    authors?: AuthorChange[]
+    authorsChanges?: AuthorChange[]
 }
 
 export interface BookChangeHistory {

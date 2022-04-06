@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using BookChangelog.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NodaTime;
+using NodaTime.Serialization.SystemTextJson;
 
 namespace BookChangelog.API.Infrastructure.EntityConfigurations;
 
@@ -20,7 +22,7 @@ public class BookChangeHistoryConfiguration : IEntityTypeConfiguration<BookChang
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters = { new JsonStringEnumConverter() }
-        };
+        }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
         builder
             .Property(bch => bch.Change)
